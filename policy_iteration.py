@@ -47,14 +47,14 @@ def policy_iteration(mdp):
             for s in mdp.states:
                 v_old = v[s]
                 a = pi[s]
-                p_sa = mdp.p(s,a)
+                p_sa = mdp.p(s, a)
 
                 v_new = 0
                 for (ss, r), p in p_sa.items():
                     v_new += p * (r + mdp.discount * v[ss])
                 v[s] = v_new
-                
-                resid = max(resid, abs(v_old - v[s])) 
+
+                resid = max(resid, abs(v_old - v[s]))
 
             print(f'Residual: {resid:10.4f}')
             num_it += 1
@@ -75,9 +75,9 @@ def policy_iteration(mdp):
 
                 for (ss, r), p in p_sa.items():
                     a_vals[a] += p * (r + mdp.discount * v[ss])
-            
+
             pi[s] = max(a_vals.keys(), key=lambda a: a_vals[a])
-            
+
             if old_a != pi[s] and a_vals[old_a] < a_vals[pi[s]]:
                 num_a_changed += 1
                 policy_stable = False
@@ -91,19 +91,19 @@ def policy_iteration(mdp):
 
     with open(results_fname, 'wb') as f:
         pickle.dump({'pi_list': pi_list, 'v_list': v_list}, f)
-    
+
     return pi_list, v_list
 
 
 def visualize_policy_cli(pi):
     out = []
-    
+
     for s1 in range(20, -1, -1):
         for s2 in range(21):
             val = pi[(s1, s2)]
             out.append(f'{val:2}')
         out.append('\n')
-    
+
     out = ''.join(out)
     print(out)
 
@@ -113,7 +113,7 @@ def d_to_arr(d):
 
     for (s1, s2), val in d.items():
         d_arr[s1, s2] = val
-    
+
     return d_arr
 
 
@@ -155,6 +155,7 @@ def load_v_pi(fname):
     with open(fname, 'rb') as f:
         d = pickle.load(f)
     return d['v_list'][-1], d['pi_list'][-1]
+
 
 def git_test():
     return 1
