@@ -159,3 +159,7 @@ def load_v_pi(fname):
 
 def git_test():
     return 1
+
+def git_test_fresh():
+    str = ["Hello"]
+    return str
